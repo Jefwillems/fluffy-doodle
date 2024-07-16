@@ -1,0 +1,67 @@
+openapi: 3.1.0
+info:
+  title: "Logging Service"
+  version: "2.0.0"
+  description: ''
+  contact: 
+    name: District09
+    email: servicefactory@district09.gent
+    url: https://district09.gent
+servers: 
+  - description: local docker
+    url: "http://localhost:8083/"
+paths: 
+  /webhook:
+    post:
+      requestBody: 
+        content:
+          "application/json":
+            schema:
+              $ref: '#/components/schemas/OrderEvent'
+      responses: 
+        200:
+          description: returns the posted message
+          content: 
+            "application/json": 
+              schema: 
+                $ref: '#/components/schemas/OrderEvent'
+        500:
+          description: server error
+        422:
+          description: a validation error occured                
+components: 
+  schemas:
+    Address:
+      type: object
+      required: 
+        - street
+        - number
+        - postcode
+        - city
+        - country
+      properties: 
+        street:
+          type: string
+        number:
+          type: string
+        postcode:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+    OrderEvent:
+      type: object
+      required:
+        - amount
+        - item
+        - address
+      properties:
+        amount:
+          type: string
+        item:
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+      examples:
+        -  {"amount":41,"item":"Wireless mouse","address":{"street": "Harbour View Drive","number":"68","postcode":"2000","city":"sydney","country":"Australia"}}

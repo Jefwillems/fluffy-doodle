@@ -1,0 +1,36 @@
+asyncapi: 3.0.0
+info:
+  title: Order Service
+  version: 1.0.0
+  description: This service is in charge of processing orders
+channels:
+  orderPlaced:
+    address: "VirtualTopic.Orders::Consumer.VirtualTopic.Orders"
+    messages:
+      OrderPlacedMessage:
+        $ref: '#/components/messages/OrderPlacedMessage'
+operations:
+  receiveOrderPlaced:
+    action: receive
+    channel:
+      $ref: '#/channels/orderPlaced'
+    messages:
+      - $ref: '#/channels/orderPlaced/messages/OrderPlacedMessage'
+components:
+  messages:
+    OrderPlacedMessage:
+      payload:
+        type: object
+        properties:
+          amount:
+            type: number
+            description: number of items ordered
+            example: 24
+          item:
+            type: string
+            description: Item name
+            example: laptop
+          address:
+            type: string
+            example: "Evergreen Avenue;42;8500;Beverly Hills;USA"
+          

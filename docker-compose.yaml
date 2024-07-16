@@ -1,0 +1,32 @@
+services:
+  # rabbitmq:
+  #   image: rabbitmq:3.13.3-management-alpine
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=admin
+  #     - RABBITMQ_DEFAULT_PASS=password
+  artemis:
+    image: apache/activemq-artemis:latest-alpine
+    ports:
+      - 8161:8161
+      - 61616:61616
+      - 5672:5672
+    environment:
+      - ARTEMIS_USER=admin
+      - ARTEMIS_PASSWORD=password
+    healthcheck:
+      test: /var/lib/artemis-instance/bin/artemis check node --user=admin --password=password | grep -c success > /dev/null
+      interval: 10s
+      start_period: 20s
+  externalapi:
+    image: jefwillems/externalapi:latest
+    ports:
+      - 8083:8080
+  messagepublisher:
+    image: jefwillems/messagepublisher:latest
+    ports:
+      - 8090:8080
+
+      

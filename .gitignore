@@ -1,0 +1,10 @@
+camelSol/
+solution/
+.vscode/
+.idea
+bin/
+obj/
+__pycache__/
+messagePublisher/
+.venv/
+venv/
